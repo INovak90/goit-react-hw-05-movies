@@ -1,5 +1,5 @@
 import { FetchCast } from '../Api';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ColorRing } from 'react-loader-spinner';
 import placeHolder from '../../image/placeholder.jpg';

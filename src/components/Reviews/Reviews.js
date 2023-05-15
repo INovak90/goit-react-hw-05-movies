@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FetchReviews } from '../Api';
 import { ColorRing } from 'react-loader-spinner';
