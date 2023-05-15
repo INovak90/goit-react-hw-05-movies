@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FetchReviews } from './Api';
+import { ColorRing } from 'react-loader-spinner';
 import css from './Reviews.module.css';
 
 const Reviews = () => {
@@ -25,6 +26,8 @@ const Reviews = () => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
     FetchData();
@@ -41,7 +44,18 @@ const Reviews = () => {
               </li>
             );
           })}
-        {reviews === [] && !isLoading && (
+        {isLoading && (
+          <ColorRing
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="blocks-wrapper"
+            colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+          />
+        )}
+        {reviews.length === 0 && !isLoading && (
           <p>We don`t have any reviews from this movie.</p>
         )}
       </ul>

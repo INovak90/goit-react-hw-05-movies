@@ -58,6 +58,8 @@ const Movies = () => {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
     FetchData();

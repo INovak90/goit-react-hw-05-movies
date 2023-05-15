@@ -1,12 +1,14 @@
 import { FetchCast } from './Api';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { ColorRing } from 'react-loader-spinner';
 import placeHolder from '../image/placeholder.jpg';
 import css from './Cast.module.css';
 
 const Cast = () => {
   const { movieId } = useParams();
   const [cast, setCast] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const firstUpdate = useRef(true);
 
   useEffect(() => {
@@ -18,11 +20,15 @@ const Cast = () => {
         if (firstUpdate.current) {
           firstUpdate.current = false;
         } else {
+          setIsLoading(true);
           const response = await FetchCast(movieId);
           setCast(response);
+          setIsLoading(false);
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
     FetchData();
@@ -30,6 +36,17 @@ const Cast = () => {
 
   return (
     <section className={css['section-cast']}>
+      {isLoading && (
+        <ColorRing
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+        />
+      )}
       <ul className={css['cast-list']}>
         {cast &&
           cast.map(actor => (
@@ -48,8 +65,8 @@ const Cast = () => {
                 />
               )}
               <div className={css['box-actor']}>
-              <p>{actor.name}</p>
-              <p>Character: {actor.character}</p>
+                <p>{actor.name}</p>
+                <p>Character: {actor.character}</p>
               </div>
             </li>
           ))}

@@ -4,12 +4,14 @@ import { useState, useEffect, useRef } from 'react';
 import { FcUndo } from 'react-icons/fc';
 import { FetchDetails } from '../../components/Api';
 import { Suspense } from 'react';
+import { ColorRing } from 'react-loader-spinner';
 import placeHolder from '../../image/placeholder.jpg';
 import css from './MovieDetails.module.css';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [moviesDetails, setMoviesDetails] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const location = useRef(useLocation());
   const currentLocation = useLocation();
@@ -19,12 +21,16 @@ const MovieDetails = () => {
         if (!movieId) {
           return;
         }
+        setIsLoading(true);
         const response = await FetchDetails(movieId);
         setMoviesDetails(response);
+        setIsLoading(false);
       } catch (error) {
         setError(
           'Sorry something went wrong, please reload the page, or go back.'
         );
+      } finally {
+        setIsLoading(false);
       }
     }
     FetchData();
@@ -33,6 +39,17 @@ const MovieDetails = () => {
   return (
     <>
       <section className={css.details}>
+        {isLoading && (
+          <ColorRing
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="blocks-wrapper"
+            colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+          />
+        )}
         <Link to={location.current.state.from} className={css.back}>
           <FcUndo />
           Go back
@@ -94,7 +111,21 @@ const MovieDetails = () => {
           </li>
         </ul>
       </section>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <div>
+            <ColorRing
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="blocks-loading"
+              wrapperStyle={{}}
+              wrapperClass="blocks-wrapper"
+              colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+            />
+          </div>
+        }
+      >
         <Outlet />
       </Suspense>
     </>
