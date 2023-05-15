@@ -1,15 +1,14 @@
-import { FetchCast } from './Api';
+import { FetchCast } from '../Api';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ColorRing } from 'react-loader-spinner';
-import placeHolder from '../image/placeholder.jpg';
+import placeHolder from '../../image/placeholder.jpg';
 import css from './Cast.module.css';
 
 const Cast = () => {
   const { movieId } = useParams();
   const [cast, setCast] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const firstUpdate = useRef(true);
 
   useEffect(() => {
     async function FetchData() {
@@ -17,14 +16,11 @@ const Cast = () => {
         if (!movieId) {
           return;
         }
-        if (firstUpdate.current) {
-          firstUpdate.current = false;
-        } else {
-          setIsLoading(true);
-          const response = await FetchCast(movieId);
-          setCast(response);
-          setIsLoading(false);
-        }
+
+        setIsLoading(true);
+        const response = await FetchCast(movieId);
+        setCast(response);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       } finally {

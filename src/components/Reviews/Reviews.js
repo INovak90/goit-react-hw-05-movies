@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { FetchReviews } from './Api';
+import { FetchReviews } from '../Api';
 import { ColorRing } from 'react-loader-spinner';
 import css from './Reviews.module.css';
 
@@ -8,7 +8,6 @@ const Reviews = () => {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const firstUpdate = useRef(true);
 
   useEffect(() => {
     async function FetchData() {
@@ -16,14 +15,10 @@ const Reviews = () => {
         if (!movieId) {
           return;
         }
-        if (firstUpdate.current) {
-          firstUpdate.current = false;
-        } else {
-          setIsLoading(true);
-          const response = await FetchReviews(movieId);
-          setReviews(response);
-          setIsLoading(false);
-        }
+        setIsLoading(true);
+        const response = await FetchReviews(movieId);
+        setReviews(response);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       } finally {
