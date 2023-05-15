@@ -1,0 +1,22 @@
+.section-cast {
+  padding-top: 20px;
+}
+.cast-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 66px;
+  justify-content: center;
+}
+.cast-item {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+.cast-image {
+  width: 350px;
+  height: 450px;
+}
+.box-actor {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+}

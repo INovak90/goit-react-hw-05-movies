@@ -1,0 +1,16 @@
+.section-reviews {
+  padding-top: 20px;
+}
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.reviews-item {
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3),
+    1px 1px 5px rgba(255, 255, 255, 1);
+  padding: 10px;
+}
+.reviews-title {
+  margin-bottom: 10px;
+}

@@ -1,0 +1,24 @@
+.container {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.header {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.2);
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+.navigation-list {
+  display: flex;
+  gap: 20px;
+}
+.navigation-item {
+  padding: 5px 20px;
+}
+.active {
+  color: red;
+  font-weight: 600;
+}
+.pages {
+  color: black;
+  font-weight: 600;
+}

@@ -1,0 +1,34 @@
+.home {
+  padding-top: 20px;
+}
+.movie-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.movie-item {
+  font-size: 14px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.movie-item::before {
+  content: '';
+  background: gray;
+  border-radius: 50%;
+  display: block;
+  width: 10px;
+  height: 10px;
+}
+
+.movie-title {
+  display: contents;
+}
+.movie-text {
+  color: black;
+  text-decoration: none;
+  font-weight: 500;
+}
+.movie-text:hover {
+  color: green;
+}
