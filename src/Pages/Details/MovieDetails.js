@@ -4,14 +4,12 @@ import { useState, useEffect, useRef } from 'react';
 import { FcUndo } from 'react-icons/fc';
 import { FetchDetails } from '../../components/Api';
 import { Suspense } from 'react';
-import { ColorRing } from 'react-loader-spinner';
 import placeHolder from '../../image/placeholder.jpg';
 import css from './MovieDetails.module.css';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [moviesDetails, setMoviesDetails] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const location = useRef(useLocation());
   const currentLocation = useLocation();
@@ -21,10 +19,8 @@ const MovieDetails = () => {
         if (!movieId) {
           return;
         }
-        setIsLoading(true);
         const response = await FetchDetails(movieId);
         setMoviesDetails(response);
-        setIsLoading(false);
       } catch (error) {
         setError(
           'Sorry something went wrong, please reload the page, or go back.'
