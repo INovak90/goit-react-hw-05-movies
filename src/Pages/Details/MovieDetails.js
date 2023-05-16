@@ -13,8 +13,9 @@ const MovieDetails = () => {
   const [moviesDetails, setMoviesDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const location = useRef(useLocation());
+  
   const currentLocation = useLocation();
+  const location = useRef(currentLocation.state);
   useEffect(() => {
     async function FetchData() {
       try {
@@ -50,7 +51,7 @@ const MovieDetails = () => {
             colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
           />
         )}
-        <Link to={location.current.state.from} className={css.back}>
+        <Link to={location.current.from} className={css.back}>
           <FcUndo />
           Go back
         </Link>
@@ -91,7 +92,7 @@ const MovieDetails = () => {
                   ? css.active
                   : css.cast
               }`}
-              state={{ from: location.current }}
+              // state={{ from: location.current }}
             >
               Cast
             </Link>
@@ -104,7 +105,7 @@ const MovieDetails = () => {
                   ? css.active
                   : css.cast
               }`}
-              state={{ from: location.current }}
+              // state={{ from: location.current }}
             >
               Reviews
             </Link>

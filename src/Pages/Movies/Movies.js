@@ -1,6 +1,12 @@
 import { FetchSearchQueryFilms } from 'components/Api';
 import { useState, useEffect, Suspense } from 'react';
-import { Link, Outlet, useSearchParams, useLocation } from 'react-router-dom';
+import {
+  Link,
+  Outlet,
+  useSearchParams,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import { FcSearch, FcUndo } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import { ColorRing } from 'react-loader-spinner';
@@ -10,15 +16,26 @@ import styled from '../Home/Home.module.css';
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams('');
+
   const [movies, setMovies] = useState(null);
+  const [submit, setSubmit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const query = searchParams.get('query');
+  const query = searchParams.get('query') ?? '';
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const updateQueryString = e => {
+    if (e.target.value === '') {
+      return setSearchParams({});
+    }
+
+    setSearchParams({ query: e.target.value });
+  };
 
   const onSubmitForm = e => {
     e.preventDefault();
-    const value = e.target.elements.query.value;
-    if (value.trim() === '') {
+    setSubmit(true);
+    if (query.trim() === '') {
       return toast('Your request is bad!', {
         position: 'top-right',
         autoClose: 5000,
@@ -30,20 +47,19 @@ const Movies = () => {
         theme: 'light',
       });
     }
-    setSearchParams({ query: value.toLocaleLowerCase() });
     setMovies(null);
   };
   useEffect(() => {
     async function FetchData() {
       try {
-        if (query === null) {
+        if (!submit) {
           return;
         }
-
         setIsLoading(true);
         const response = await FetchSearchQueryFilms(query);
         setMovies(response);
         if (response.length === 0) {
+          navigate('/movies', { replace: true });
           return toast.error('Nothing was found according to your request !', {
             position: 'top-right',
             autoClose: 5000,
@@ -57,13 +73,24 @@ const Movies = () => {
         }
         setIsLoading(false);
       } catch (error) {
-        console.log(error);
+        navigate('/', { replace: true });
+        toast.error('Something went wrong, please reload the page.', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
       } finally {
         setIsLoading(false);
+        setSubmit(false);
       }
     }
     FetchData();
-  }, [query]);
+  }, [navigate, query, submit]);
   return (
     <>
       <section className={css.movies}>
@@ -74,7 +101,9 @@ const Movies = () => {
         <form onSubmit={onSubmitForm} className={css.form}>
           <label>
             <input
+              onChange={updateQueryString}
               className={css.input}
+              value={query}
               name="query"
               type="text"
               autoComplete="off"
