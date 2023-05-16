@@ -18,23 +18,24 @@ const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams('');
 
   const [movies, setMovies] = useState(null);
-  const [submit, setSubmit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [submit, setSubmit] = useState(true);
+
   const query = searchParams.get('query') ?? '';
   const location = useLocation();
   const navigate = useNavigate();
+
 
   const updateQueryString = e => {
     if (e.target.value === '') {
       return setSearchParams({});
     }
-
+    setSubmit(false);
     setSearchParams({ query: e.target.value });
   };
 
   const onSubmitForm = e => {
     e.preventDefault();
-    setSubmit(true);
     if (query.trim() === '') {
       return toast('Your request is bad!', {
         position: 'top-right',
@@ -47,29 +48,35 @@ const Movies = () => {
         theme: 'light',
       });
     }
-    setMovies(null);
+    setSubmit(true);
   };
+
   useEffect(() => {
     async function FetchData() {
       try {
         if (!submit) {
           return;
         }
-        setIsLoading(true);
-        const response = await FetchSearchQueryFilms(query);
-        setMovies(response);
-        if (response.length === 0) {
-          navigate('/movies', { replace: true });
-          return toast.error('Nothing was found according to your request !', {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'light',
-          });
+        if (query !== '') {
+          setIsLoading(true);
+          const response = await FetchSearchQueryFilms(query);
+          setMovies(response);
+          if (response.length === 0) {
+            navigate('/movies', { replace: true });
+            return toast.error(
+              'Nothing was found according to your request !',
+              {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'light',
+              }
+            );
+          }
         }
         setIsLoading(false);
       } catch (error) {
