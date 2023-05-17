@@ -1,0 +1,9 @@
+.boxNotFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.sectionNotFound {
+  padding: 20px;
+}

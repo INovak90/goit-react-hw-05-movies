@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { lazy } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Layout from './Layout/Layout';
+import NotFound from 'Pages/NotFound/NotFound';
 const Home = lazy(() => import('../Pages/Home/Home'));
 const MovieDetails = lazy(() => import('../Pages/Details/MovieDetails'));
 const Movies = lazy(() => import('../Pages/Movies/Movies'));
@@ -20,7 +21,9 @@ const App = () => {
             <Route path="reviews" element={<Reviews />} />
           </Route>
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
+
       <ToastContainer />
     </>
   );

@@ -7,12 +7,13 @@ import {
   useLocation,
   useNavigate,
 } from 'react-router-dom';
-import { FcSearch, FcUndo } from 'react-icons/fc';
+import { FcSearch } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import { ColorRing } from 'react-loader-spinner';
 import 'react-toastify/dist/ReactToastify.css';
 import css from './Movies.module.css';
 import styled from '../Home/Home.module.css';
+import Back from 'components/Back/Back';
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams('');
@@ -24,7 +25,6 @@ const Movies = () => {
   const query = searchParams.get('query') ?? '';
   const location = useLocation();
   const navigate = useNavigate();
-
 
   const updateQueryString = e => {
     if (e.target.value === '') {
@@ -101,10 +101,7 @@ const Movies = () => {
   return (
     <>
       <section className={css.movies}>
-        <Link to="/" className={css.back}>
-          <FcUndo />
-          Go back
-        </Link>
+        <Back location={'/'} />
         <form onSubmit={onSubmitForm} className={css.form}>
           <label>
             <input

@@ -1,21 +1,22 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
-import { FcUndo } from 'react-icons/fc';
+import { useState, useEffect } from 'react';
+
 import { FetchDetails } from '../../components/Api';
 import { Suspense } from 'react';
 import { ColorRing } from 'react-loader-spinner';
 import placeHolder from '../../image/placeholder.jpg';
 import css from './MovieDetails.module.css';
+import Back from 'components/Back/Back';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [moviesDetails, setMoviesDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+
   const currentLocation = useLocation();
-  const location = useRef(currentLocation.state);
+
   useEffect(() => {
     async function FetchData() {
       try {
@@ -51,10 +52,7 @@ const MovieDetails = () => {
             colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
           />
         )}
-        <Link to={location.current.from} className={css.back}>
-          <FcUndo />
-          Go back
-        </Link>
+        <Back location={currentLocation.state.from} />
         {moviesDetails ? (
           <div className={css['box-details']}>
             {!moviesDetails.poster_path ? (
@@ -92,7 +90,7 @@ const MovieDetails = () => {
                   ? css.active
                   : css.cast
               }`}
-              // state={{ from: location.current }}
+              state={{ from: currentLocation.state.from }}
             >
               Cast
             </Link>
@@ -105,7 +103,7 @@ const MovieDetails = () => {
                   ? css.active
                   : css.cast
               }`}
-              // state={{ from: location.current }}
+              state={{ from: currentLocation.state.from }}
             >
               Reviews
             </Link>
